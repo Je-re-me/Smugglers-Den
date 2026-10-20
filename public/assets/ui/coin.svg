@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Coin</title>
+  <defs>
+    <radialGradient id="gold" cx="35%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#fff1a8"/>
+      <stop offset="60%" stop-color="#e0b040"/>
+      <stop offset="100%" stop-color="#9a6d12"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#gold)" stroke="#7a5a00" stroke-width="3"/>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="#7a5a00" stroke-width="2"/>
+  <text x="32" y="41" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="bold" fill="#7a5a00">S</text>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120" width="480" height="120">
+  <title>Smugglers' Den</title>
+  <line x1="40" y1="96" x2="440" y2="96" stroke="#c9a54a" stroke-width="2"/>
+  <text x="240" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="bold" letter-spacing="4" fill="#f4e7c5" stroke="#1a0f16" stroke-width="2" paint-order="stroke">SMUGGLERS' DEN</text>
+</svg>

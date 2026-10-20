@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <title>Contraband card, value 4</title>
+  <rect x="4" y="4" width="192" height="272" rx="14" fill="#2e1f2b" stroke="#8b1e1e" stroke-width="6"/>
+  <rect x="16" y="16" width="168" height="248" rx="8" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="30" y="52" font-family="Georgia, serif" font-size="30" font-weight="bold" fill="#f0c75e">4</text>
+  <text x="170" y="250" text-anchor="end" font-family="Georgia, serif" font-size="30" font-weight="bold" fill="#f0c75e">4</text>
+  <g transform="translate(100 130)" stroke="#1a0f16" stroke-width="3">
+    <rect x="-50" y="-30" width="100" height="60" rx="4" fill="#5c1f1f"/>
+    <line x1="-50" y1="-10" x2="50" y2="-10"/>
+    <line x1="-50" y1="10" x2="50" y2="10"/>
+    <circle cx="0" cy="0" r="14" fill="#c0392b" stroke="#f4e7c5" stroke-width="2"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="2" fill="#e8b3a8">CONTRABAND</text>
+</svg>

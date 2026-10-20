@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Inspector</title>
+  <circle cx="28" cy="28" r="17" fill="#cfe3f0" stroke="#2d3e50" stroke-width="5"/>
+  <line x1="40" y1="40" x2="56" y2="56" stroke="#2d3e50" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smugglers' Den</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <h1>Smugglers' Den</h1>
+
+    <section id="join-section">
+      <form id="join-form">
+        <label>
+          Name
+          <input id="name" maxlength="20" autocomplete="off" required />
+        </label>
+        <button type="submit">Join</button>
+      </form>
+      <p id="join-error" class="error"></p>
+    </section>
+
+    <section>
+      <p><span id="phase"></span> <span id="round"></span></p>
+      <p id="you"></p>
+      <ul id="seats"></ul>
+      <button id="start" type="button" disabled>Start game</button>
+      <p id="start-error" class="error"></p>
+    </section>
+
+    <section>
+      <h2>Your hand</h2>
+      <p id="hand">No cards dealt yet.</p>
+    </section>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js" defer></script>
+  </body>
+</html>

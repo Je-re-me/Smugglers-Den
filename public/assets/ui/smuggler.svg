@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Smuggler</title>
+  <path d="M32 6 C18 6 11 18 11 30 L11 58 L53 58 L53 30 C53 18 46 6 32 6 Z" fill="#3a3a3a"/>
+  <ellipse cx="32" cy="32" rx="11" ry="9" fill="#1a1a1a"/>
+  <circle cx="28" cy="31" r="2" fill="#f0c75e"/>
+  <circle cx="36" cy="31" r="2" fill="#f0c75e"/>
+</svg>
