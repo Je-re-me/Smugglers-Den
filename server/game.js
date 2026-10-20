@@ -1,9 +1,11 @@
-import { randomUUID } from 'node:crypto';
+import { randomInt, randomUUID } from 'node:crypto';
+import { CARD_POOL } from './cards.js';
 
 export const PLAYER_COUNT = 4;
 export const ROTATIONS = 3;
 export const TOTAL_ROUNDS = PLAYER_COUNT * ROTATIONS;
 export const STARTING_CURRENCY = 50;
+const CARDS_PER_SMUGGLER = 4;
 const MAX_NAME_LENGTH = 20;
 
 export class Game {
@@ -45,9 +47,27 @@ export class Game {
   disconnect(socketId) {
     const player = this.players.find((p) => p.socketId === socketId);
     if (!player) return false;
+    if (this.phase === 'playing') {
+      this.clear();
+      return true;
+    }
     player.connected = false;
     player.socketId = null;
     return true;
+  }
+
+  clear() {
+    this.players = [];
+    this.phase = 'lobby';
+    this.round = 0;
+  }
+
+  reset(socketId) {
+    if (!this.players.some((p) => p.socketId === socketId)) {
+      return { ok: false, error: 'Only seated players can reset the game' };
+    }
+    this.clear();
+    return { ok: true };
   }
 
   start(socketId) {
@@ -64,7 +84,18 @@ export class Game {
 
     this.phase = 'playing';
     this.round = 1;
+    this.dealRound();
     return { ok: true };
+  }
+
+  dealRound() {
+    const inspector = this.inspectorSeat();
+    this.players.forEach((player, seat) => {
+      player.hand =
+        seat === inspector
+          ? []
+          : Array.from({ length: CARDS_PER_SMUGGLER }, () => CARD_POOL[randomInt(CARD_POOL.length)]);
+    });
   }
 
   inspectorSeat() {

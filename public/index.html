@@ -25,12 +25,14 @@
       <p id="you"></p>
       <ul id="seats"></ul>
       <button id="start" type="button" disabled>Start game</button>
+      <button id="reset" type="button" disabled>Reset game</button>
       <p id="start-error" class="error"></p>
     </section>
 
     <section>
       <h2>Your hand</h2>
-      <p id="hand">No cards dealt yet.</p>
+      <div id="declare" class="cards"></div>
+      <div id="hand" class="cards">No cards dealt yet.</div>
     </section>
 
     <script src="/socket.io/socket.io.js"></script>

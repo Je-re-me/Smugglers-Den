@@ -38,8 +38,20 @@ io.on('connection', (socket) => {
     if (result.ok) broadcast();
   });
 
+  socket.on('reset', (ack) => {
+    const result = game.reset(socket.id);
+    ack?.(result);
+    if (result.ok) {
+      io.emit('reset');
+      broadcast();
+    }
+  });
+
   socket.on('disconnect', () => {
-    if (game.disconnect(socket.id)) broadcast();
+    const wasPlaying = game.phase === 'playing';
+    if (!game.disconnect(socket.id)) return;
+    if (wasPlaying) io.emit('reset');
+    broadcast();
   });
 });
 
