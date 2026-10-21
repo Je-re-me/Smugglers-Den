@@ -1,32 +1,64 @@
 body {
   font-family: system-ui, sans-serif;
-  max-width: 40rem;
-  margin: 2rem auto;
-  padding: 0 1rem;
-  background: #14301f url('/assets/ui/table.svg') center / cover no-repeat fixed;
+  margin: 2rem 1rem;
+  color: #f4e7c5;
+  background: #070504 url('/assets/ui/treasure-room.svg') center / cover no-repeat fixed;
+  text-align: center;
 }
 
 section {
-  margin-bottom: 1.5rem;
+  max-width: 40rem;
+  margin: 0 auto 1.5rem;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 40rem) 1fr;
+  align-items: start;
+}
+
+.page > .top {
+  grid-column: 1;
+}
+
+.main {
+  grid-column: 2;
 }
 
 .top {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: flex-start;
+  gap: 0rem;
+  text-align: left;
+  margin-top: -3rem;
+  margin-bottom: 1.5rem;
 }
 
-.top .intro {
-  flex: 1 1 16rem;
+.top .intro,
+.top .players {
+  flex: 0 0 auto;
+}
+
+.top .players {
+  margin-top: -4rem;
 }
 
 .top .status {
-  flex: 1 1 16rem;
+  margin-top: -2rem;
+}
+
+#packages {
+  padding-left: 0;
+}
+
+#packages li {
+  justify-content: center;
 }
 
 .error {
-  color: #b00020;
+  color: #ff7a7a;
   min-height: 1lh;
 }
 
@@ -50,11 +82,45 @@ ul {
   margin-right: 0.5rem;
 }
 
+.displayed-card {
+  position: relative;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.displayed-card img {
+  display: block;
+  margin-right: 0;
+}
+
+.bribe-counter {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: #070504;
+  color: #f4e7c5;
+  font-weight: bold;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.bribe-counter img {
+  display: block;
+  margin-right: 0;
+}
+
 #packages li {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   gap: 0.5rem;
+  padding-top: 0.75rem;
   white-space: nowrap;
   overflow-x: auto;
 }

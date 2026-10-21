@@ -310,6 +310,7 @@ export class Game {
       hand: player.hand,
       packedCards: player.package?.cards ?? null,
       packedDeclared: player.package?.declared ?? null,
+      packedBribe: player.package?.bribe ?? null,
     };
   }
 }

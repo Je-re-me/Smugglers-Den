@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice">
+  <title>Treasure room background</title>
+  <defs>
+    <radialGradient id="room" cx="50%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#2a1d12"/>
+      <stop offset="100%" stop-color="#070504"/>
+    </radialGradient>
+    <radialGradient id="torchGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffb347" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="45%" r="65%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.85"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7d774"/>
+      <stop offset="100%" stop-color="#a87618"/>
+    </linearGradient>
+    <pattern id="stones" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M0 0H80M0 40H80M40 0V40M20 40V80M60 40V80" fill="none" stroke="#3b2a1c" stroke-width="2"/>
+    </pattern>
+    <ellipse id="coin" rx="20" ry="7" fill="url(#gold)" stroke="#5c3d0a" stroke-width="1.5"/>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#room)"/>
+  <rect width="800" height="600" fill="url(#stones)" opacity="0.7"/>
+  <rect y="460" width="800" height="140" fill="#120d09"/>
+  <line x1="0" y1="460" x2="800" y2="460" stroke="#3b2a1c" stroke-width="2"/>
+
+  <circle cx="90" cy="180" r="170" fill="url(#torchGlow)"/>
+  <circle cx="710" cy="180" r="170" fill="url(#torchGlow)"/>
+
+  <rect x="40" y="370" width="160" height="110" rx="6" fill="#4a2a14" stroke="#1a0d05" stroke-width="3"/>
+  <path d="M40 370 Q40 330 120 330 Q200 330 200 370 Z" fill="#5c3418" stroke="#1a0d05" stroke-width="3"/>
+  <rect x="92" y="330" width="14" height="150" fill="#b8892e" opacity="0.8"/>
+  <rect x="134" y="330" width="14" height="150" fill="#b8892e" opacity="0.8"/>
+  <rect x="112" y="390" width="16" height="22" rx="3" fill="url(#gold)"/>
+
+  <rect x="600" y="390" width="160" height="90" rx="6" fill="#4a2a14" stroke="#1a0d05" stroke-width="3"/>
+  <path d="M600 390 L620 350 L740 350 L760 390 Z" fill="#5c3418" stroke="#1a0d05" stroke-width="3"/>
+  <path d="M612 390 L628 360 L732 360 L748 390 Z" fill="#0d0604"/>
+  <rect x="692" y="390" width="14" height="90" fill="#b8892e" opacity="0.8"/>
+
+  <use href="#coin" x="60" y="562"/>
+  <use href="#coin" x="96" y="570"/>
+  <use href="#coin" x="134" y="560"/>
+  <use href="#coin" x="170" y="572"/>
+  <use href="#coin" x="208" y="562"/>
+  <use href="#coin" x="246" y="570"/>
+  <use href="#coin" x="282" y="560"/>
+  <use href="#coin" x="78" y="536"/>
+  <use href="#coin" x="116" y="542"/>
+  <use href="#coin" x="154" y="532"/>
+  <use href="#coin" x="192" y="542"/>
+  <use href="#coin" x="230" y="534"/>
+  <use href="#coin" x="266" y="540"/>
+  <use href="#coin" x="100" y="512"/>
+  <use href="#coin" x="138" y="506"/>
+  <use href="#coin" x="176" y="514"/>
+  <use href="#coin" x="214" y="506"/>
+  <use href="#coin" x="252" y="512"/>
+  <use href="#coin" x="120" y="490"/>
+  <use href="#coin" x="158" y="484"/>
+  <use href="#coin" x="196" y="492"/>
+  <use href="#coin" x="232" y="486"/>
+
+  <use href="#coin" x="740" y="562"/>
+  <use href="#coin" x="704" y="570"/>
+  <use href="#coin" x="666" y="560"/>
+  <use href="#coin" x="630" y="572"/>
+  <use href="#coin" x="592" y="562"/>
+  <use href="#coin" x="554" y="570"/>
+  <use href="#coin" x="518" y="560"/>
+  <use href="#coin" x="722" y="536"/>
+  <use href="#coin" x="684" y="542"/>
+  <use href="#coin" x="646" y="532"/>
+  <use href="#coin" x="608" y="542"/>
+  <use href="#coin" x="570" y="534"/>
+  <use href="#coin" x="534" y="540"/>
+  <use href="#coin" x="700" y="512"/>
+  <use href="#coin" x="662" y="506"/>
+  <use href="#coin" x="624" y="514"/>
+  <use href="#coin" x="586" y="506"/>
+  <use href="#coin" x="548" y="512"/>
+  <use href="#coin" x="680" y="490"/>
+  <use href="#coin" x="642" y="484"/>
+  <use href="#coin" x="604" y="492"/>
+  <use href="#coin" x="568" y="486"/>
+  <use href="#coin" x="630" y="418"/>
+  <use href="#coin" x="660" y="410"/>
+  <use href="#coin" x="700" y="412"/>
+  <use href="#coin" x="730" y="418"/>
+  <use href="#coin" x="680" y="402"/>
+  <use href="#coin" x="715" y="398"/>
+
+  <circle cx="150" cy="525" r="6" fill="#b3202a" stroke="#ffd0d0" stroke-width="1" stroke-opacity="0.5"/>
+  <circle cx="232" cy="548" r="6" fill="#2a7f4f" stroke="#d0ffe0" stroke-width="1" stroke-opacity="0.5"/>
+  <circle cx="640" cy="540" r="6" fill="#2b5fb3" stroke="#d0e0ff" stroke-width="1" stroke-opacity="0.5"/>
+  <circle cx="560" cy="505" r="6" fill="#b3202a" stroke="#ffd0d0" stroke-width="1" stroke-opacity="0.5"/>
+
+  <rect x="84" y="200" width="12" height="60" fill="#2a1d12"/>
+  <path d="M74 200 H106 L98 214 H82 Z" fill="#3b2a18"/>
+  <path d="M90 150 C100 170 102 182 90 200 C78 182 80 170 90 150 Z" fill="#ffb347"/>
+  <path d="M90 170 C94 180 94 188 90 196 C86 188 86 180 90 170 Z" fill="#fff1b8"/>
+
+  <rect x="704" y="200" width="12" height="60" fill="#2a1d12"/>
+  <path d="M694 200 H726 L718 214 H702 Z" fill="#3b2a18"/>
+  <path d="M710 150 C720 170 722 182 710 200 C698 182 700 170 710 150 Z" fill="#ffb347"/>
+  <path d="M710 170 C714 180 714 188 710 196 C706 188 706 180 710 170 Z" fill="#fff1b8"/>
+
+  <rect width="800" height="600" fill="url(#vignette)"/>
+</svg>

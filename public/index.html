@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
+    <div class="page">
     <header class="top">
       <div class="intro">
         <h1>Smugglers' Den</h1>
@@ -23,18 +24,23 @@
         </section>
       </div>
 
-      <section class="status">
-        <p><span id="phase"></span> <span id="round"></span></p>
-        <p id="you"></p>
+      <div class="players">
+        <h2>Players</h2>
         <ul id="seats"></ul>
+
         <button id="start" type="button" disabled>Start game</button>
         <button id="reset" type="button" disabled>Reset game</button>
         <p id="start-error" class="error"></p>
-        <p id="results"></p>
-      </section>
+        <div class="status">
+          <p><span id="phase"></span> <span id="round"></span></p>
+          <p id="you"></p>
+          <p id="results"></p>
+        </div>
+      </div>
     </header>
 
-    <section>
+    <main class="main">
+    <section id="hand-section">
       <h2 id="hand-title">Your hand</h2>
       <div id="declare" class="cards"></div>
       <div id="hand" class="cards">No cards dealt yet.</div>
@@ -63,6 +69,8 @@
         <p id="revise-error" class="error"></p>
       </div>
     </section>
+    </main>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/client.js" defer></script>

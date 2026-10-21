@@ -16,6 +16,7 @@ const startButton = $('start');
 const resetButton = $('reset');
 const startError = $('start-error');
 const resultsLabel = $('results');
+const handSection = $('hand-section');
 const handLabel = $('hand');
 const handTitle = $('hand-title');
 const packControls = $('pack-controls');
@@ -92,7 +93,7 @@ socket.on('reset', () => {
 socket.on('state', (state) => {
   latestState = state;
   goods = state.goods;
-  phaseLabel.textContent = state.phase;
+  phaseLabel.textContent = state.phase === 'lobby' ? '' : state.phase;
   roundLabel.textContent =
     state.phase === 'playing' ? `Round ${state.round} of ${state.totalRounds}` : '';
 
@@ -102,6 +103,7 @@ socket.on('state', (state) => {
     ? `You are ${seated.name} (seat ${seat + 1})${seat === state.inspectorSeat ? ', inspector' : ''}`
     : '';
   packed = Boolean(seated?.packed);
+  handSection.hidden = seat !== null && seat === state.inspectorSeat;
 
   resultsLabel.textContent = state.results
     ? `Game over. Winner: ${state.results.winners.join(', ')}. Final: ${state.results.balances
@@ -184,7 +186,7 @@ function renderPackages(state) {
     .map((player) => {
       const li = document.createElement('li');
       const text = document.createElement('span');
-      text.textContent = `${player.name}: ${player.cardCount} card${player.cardCount === 1 ? '' : 's'} declared ${player.declared.name}, bribe ${player.bribe} - ${describeStatus(player)} `;
+      text.textContent = `${player.name}: ${describeStatus(player)} `;
       li.append(text);
       const shownCards = player.cards ?? (player.seat === seat ? ownPackedCards : null);
       if (shownCards) {
@@ -193,6 +195,7 @@ function renderPackages(state) {
         cards.replaceChildren(...shownCards.map((card) => cardImage(card, 60, 84)));
         li.append(cards);
       }
+      li.append(displayedCard(player.declared, player.bribe));
       if (isInspector && inspecting) {
         for (const [label, action] of actionsFor(player.status)) {
           const button = document.createElement('button');
@@ -267,8 +270,24 @@ function renderDeclareRow() {
   );
 }
 
-function renderHand(hand, packedCards, packedDeclared) {
-  const key = JSON.stringify({ hand, packedCards, packedDeclared });
+function displayedCard(good, bribe) {
+  const wrapper = document.createElement('span');
+  wrapper.classList.add('displayed-card');
+  const counter = document.createElement('span');
+  counter.classList.add('bribe-counter');
+  counter.textContent = bribe;
+  const coin = document.createElement('img');
+  coin.src = '/assets/ui/coin.svg';
+  coin.alt = 'coins';
+  coin.width = 16;
+  coin.height = 16;
+  counter.append(coin);
+  wrapper.append(cardImage(good, 80, 112), counter);
+  return wrapper;
+}
+
+function renderHand(hand, packedCards, packedDeclared, packedBribe) {
+  const key = JSON.stringify({ hand, packedCards, packedDeclared, packedBribe });
   if (key === shownHand) return;
   shownHand = key;
   selectedCards = new Set();
@@ -283,7 +302,7 @@ function renderHand(hand, packedCards, packedDeclared) {
     handLabel.replaceChildren(
       ...packedCards.map((card) => cardImage(card, 100, 140)),
       displayedAs,
-      cardImage(packedDeclared, 80, 112),
+      displayedCard(packedDeclared, packedBribe),
     );
   } else if (hand.length === 0) {
     handTitle.textContent = 'Your hand';
@@ -332,7 +351,7 @@ submitButton.addEventListener('click', () => {
 socket.on('private', (view) => {
   seat = view.seat;
   ownPackedCards = view.packedCards;
-  renderHand(view.hand, view.packedCards, view.packedDeclared);
+  renderHand(view.hand, view.packedCards, view.packedDeclared, view.packedBribe);
   if (latestState) {
     updateLobbyButtons();
     renderPackages(latestState);
