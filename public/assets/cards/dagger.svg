@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <title>dagger, passed 8, caught 4</title>
+  <rect x="4" y="4" width="192" height="272" rx="14" fill="#2e1f2b" stroke="#8b1e1e" stroke-width="6"/>
+  <rect x="16" y="16" width="168" height="248" rx="8" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <g transform="translate(100 125)" stroke="#1a0f16" stroke-width="3" stroke-linejoin="round">
+    <path d="M0 -50 L10 -12 L10 22 L-10 22 L-10 -12 Z" fill="#cfd8dc"/>
+    <path d="M0 -42 L0 16" fill="none" stroke="#8a9ba3" stroke-width="2"/>
+    <rect x="-28" y="18" width="56" height="8" rx="3" fill="#f0c75e"/>
+    <rect x="-5" y="26" width="10" height="22" fill="#6b4423"/>
+    <circle cx="0" cy="52" r="5" fill="#f0c75e"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="2" fill="#e8b3a8">DAGGER</text>
+
+  <!-- values -->
+  <text x="38" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#c62828">4</text>
+  <text x="162" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#000">8</text>
+  <!-- /values -->
+</svg>

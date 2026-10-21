@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <title>meat, passed 15, caught 8</title>
+  <rect x="4" y="4" width="192" height="272" rx="14" fill="#2e1f2b" stroke="#8b1e1e" stroke-width="6"/>
+  <rect x="16" y="16" width="168" height="248" rx="8" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <g transform="translate(100 130) rotate(-40)" stroke="#1a0f16" stroke-width="3" stroke-linejoin="round">
+    <rect x="16" y="-5" width="30" height="10" fill="#f4e7c5"/>
+    <circle cx="48" cy="-8" r="6" fill="#f4e7c5"/>
+    <circle cx="48" cy="8" r="6" fill="#f4e7c5"/>
+    <ellipse cx="-8" cy="0" rx="30" ry="24" fill="#c0653a"/>
+    <path d="M-20 -10 Q-8 -2 -14 10" fill="none" stroke="#8b3a1f" stroke-width="2"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="2" fill="#e8b3a8">MEAT</text>
+
+  <!-- values -->
+  <text x="38" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#c62828">8</text>
+  <text x="162" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#000">15</text>
+  <!-- /values -->
+</svg>

@@ -12,6 +12,8 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 const game = new Game();
+const ROUND_BREAK_MS = 5000;
+let nextRoundTimer = null;
 
 app.use(express.static(publicDir));
 
@@ -21,6 +23,18 @@ function broadcast() {
     const view = game.privateView(socket.id);
     if (view) socket.emit('private', view);
   }
+}
+
+function scheduleNextRound() {
+  nextRoundTimer = setTimeout(() => {
+    nextRoundTimer = null;
+    if (game.advanceRound()) broadcast();
+  }, ROUND_BREAK_MS);
+}
+
+function cancelNextRound() {
+  clearTimeout(nextRoundTimer);
+  nextRoundTimer = null;
 }
 
 io.on('connection', (socket) => {
@@ -38,10 +52,31 @@ io.on('connection', (socket) => {
     if (result.ok) broadcast();
   });
 
+  socket.on('pack', (payload, ack) => {
+    const result = game.submitPackage(socket.id, payload);
+    ack?.(result);
+    if (result.ok) broadcast();
+  });
+
+  socket.on('decide', (payload, ack) => {
+    const result = game.decide(socket.id, payload);
+    ack?.(result);
+    if (!result.ok) return;
+    broadcast();
+    if (game.intermission) scheduleNextRound();
+  });
+
+  socket.on('revise', (payload, ack) => {
+    const result = game.revise(socket.id, payload);
+    ack?.(result);
+    if (result.ok) broadcast();
+  });
+
   socket.on('reset', (ack) => {
     const result = game.reset(socket.id);
     ack?.(result);
     if (result.ok) {
+      cancelNextRound();
       io.emit('reset');
       broadcast();
     }
@@ -50,7 +85,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     const wasPlaying = game.phase === 'playing';
     if (!game.disconnect(socket.id)) return;
-    if (wasPlaying) io.emit('reset');
+    if (wasPlaying) {
+      cancelNextRound();
+      io.emit('reset');
+    }
     broadcast();
   });
 });

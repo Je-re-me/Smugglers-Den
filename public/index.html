@@ -7,32 +7,61 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <h1>Smugglers' Den</h1>
+    <header class="top">
+      <div class="intro">
+        <h1>Smugglers' Den</h1>
 
-    <section id="join-section">
-      <form id="join-form">
-        <label>
-          Name
-          <input id="name" maxlength="20" autocomplete="off" required />
-        </label>
-        <button type="submit">Join</button>
-      </form>
-      <p id="join-error" class="error"></p>
-    </section>
+        <section id="join-section">
+          <form id="join-form">
+            <label>
+              Name
+              <input id="name" maxlength="20" autocomplete="off" required />
+            </label>
+            <button type="submit">Join</button>
+          </form>
+          <p id="join-error" class="error"></p>
+        </section>
+      </div>
+
+      <section class="status">
+        <p><span id="phase"></span> <span id="round"></span></p>
+        <p id="you"></p>
+        <ul id="seats"></ul>
+        <button id="start" type="button" disabled>Start game</button>
+        <button id="reset" type="button" disabled>Reset game</button>
+        <p id="start-error" class="error"></p>
+        <p id="results"></p>
+      </section>
+    </header>
 
     <section>
-      <p><span id="phase"></span> <span id="round"></span></p>
-      <p id="you"></p>
-      <ul id="seats"></ul>
-      <button id="start" type="button" disabled>Start game</button>
-      <button id="reset" type="button" disabled>Reset game</button>
-      <p id="start-error" class="error"></p>
-    </section>
-
-    <section>
-      <h2>Your hand</h2>
+      <h2 id="hand-title">Your hand</h2>
       <div id="declare" class="cards"></div>
       <div id="hand" class="cards">No cards dealt yet.</div>
+      <div id="pack-controls">
+        <label>
+          Bribe
+          <input id="bribe" type="range" min="0" max="0" value="0" disabled />
+        </label>
+        <span id="bribe-value">0</span>
+        <button id="submit-pack" type="button" disabled>Submit to inspector</button>
+        <p id="pack-error" class="error"></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Packages</h2>
+      <ul id="packages"></ul>
+      <p id="inspect-error" class="error"></p>
+      <div id="revise-controls" hidden>
+        <label>
+          Revise bribe
+          <input id="revise-bribe" type="range" min="0" max="0" value="0" />
+        </label>
+        <span id="revise-value">0</span>
+        <button id="submit-revise" type="button">Set bribe</button>
+        <p id="revise-error" class="error"></p>
+      </div>
     </section>
 
     <script src="/socket.io/socket.io.js"></script>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <title>jewel, passed 7, caught 4</title>
+  <rect x="4" y="4" width="192" height="272" rx="14" fill="#2e1f2b" stroke="#8b1e1e" stroke-width="6"/>
+  <rect x="16" y="16" width="168" height="248" rx="8" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <g transform="translate(100 130)" stroke="#1a0f16" stroke-width="3" stroke-linejoin="round">
+    <path d="M-40 -30 L40 -30 L56 -10 L0 42 L-56 -10 Z" fill="#4fc3f7"/>
+    <path d="M-56 -10 L56 -10 M-27 -10 L0 42 L27 -10 M-27 -10 L0 -30 L27 -10 M-40 -30 L-27 -10 M40 -30 L27 -10" fill="none"/>
+    <path d="M-30 -22 L-20 -22 L-30 -14 Z" fill="#ffffff" stroke="none" opacity="0.7"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="2" fill="#e8b3a8">JEWEL</text>
+
+  <!-- values -->
+  <text x="38" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#c62828">4</text>
+  <text x="162" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#000">7</text>
+  <!-- /values -->
+</svg>

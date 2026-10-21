@@ -10,6 +10,21 @@ section {
   margin-bottom: 1.5rem;
 }
 
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.top .intro {
+  flex: 1 1 16rem;
+}
+
+.top .status {
+  flex: 1 1 16rem;
+}
+
 .error {
   color: #b00020;
   min-height: 1lh;
@@ -30,3 +45,27 @@ ul {
   border-radius: 14px;
   transform: translateY(-8px);
 }
+
+.displayed-as {
+  margin-right: 0.5rem;
+}
+
+#packages li {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+#packages .cards {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+#packages .cards img {
+  margin-right: 0.25rem;
+}
+

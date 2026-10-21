@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <title>map, passed 12, caught 6</title>
+  <rect x="4" y="4" width="192" height="272" rx="14" fill="#2e1f2b" stroke="#8b1e1e" stroke-width="6"/>
+  <rect x="16" y="16" width="168" height="248" rx="8" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <g transform="translate(100 130)" stroke="#1a0f16" stroke-width="3" stroke-linejoin="round">
+    <path d="M-50 -35 L-18 -25 L18 -35 L50 -25 L50 35 L18 25 L-18 35 L-50 25 Z" fill="#e8d5a3"/>
+    <path d="M-18 -25 L-18 35 M18 -35 L18 25" fill="none"/>
+    <path d="M-36 0 Q-20 -18 0 0 T36 0" fill="none" stroke="#8b1e1e" stroke-width="2.5" stroke-dasharray="4 3"/>
+    <path d="M28 -14 L38 -4 M38 -14 L28 -4" fill="none" stroke="#c0392b" stroke-width="3.5"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="2" fill="#e8b3a8">MAP</text>
+
+  <!-- values -->
+  <text x="38" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#c62828">6</text>
+  <text x="162" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#000">12</text>
+  <!-- /values -->
+</svg>

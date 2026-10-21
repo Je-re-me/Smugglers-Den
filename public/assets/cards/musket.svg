@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" width="200" height="280">
+  <title>musket, passed 10, caught 5</title>
+  <rect x="4" y="4" width="192" height="272" rx="14" fill="#2e1f2b" stroke="#8b1e1e" stroke-width="6"/>
+  <rect x="16" y="16" width="168" height="248" rx="8" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="6 4"/>
+  <g transform="translate(100 125)" stroke="#1a0f16" stroke-width="3" stroke-linejoin="round">
+    <path d="M-62 2 Q-62 -4 -56 -4 L-24 -6 L-16 6 L-22 16 L-54 16 Q-62 16 -62 8 Z" fill="#6b4423"/>
+    <path d="M-4 4 Q0 18 12 14" fill="none"/>
+    <rect x="-24" y="-12" width="86" height="8" rx="2" fill="#cfd8dc"/>
+    <rect x="-20" y="-4" width="20" height="10" rx="2" fill="#8a9ba3"/>
+    <path d="M-14 -4 L-14 -16 L-8 -16 L-8 -6 Z" fill="#8a9ba3"/>
+    <rect x="56" y="-14" width="5" height="12" rx="1" fill="#f0c75e"/>
+    <rect x="-1" y="3" width="3" height="7" fill="#f0c75e"/>
+  </g>
+  <text x="100" y="200" text-anchor="middle" font-family="Georgia, serif" font-size="16" letter-spacing="2" fill="#e8b3a8">MUSKET</text>
+
+  <!-- values -->
+  <text x="38" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#c62828">5</text>
+  <text x="162" y="59" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="#000">10</text>
+  <!-- /values -->
+</svg>
