@@ -13,7 +13,10 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 const game = new Game();
 const ROUND_BREAK_MS = 5000;
+const REVEAL_FLIP_MS = 5000;
+const REVEAL_BLANK_MS = 1000;
 let nextRoundTimer = null;
+let revealTimer = null;
 
 app.use(express.static(publicDir));
 
@@ -35,6 +38,20 @@ function scheduleNextRound() {
 function cancelNextRound() {
   clearTimeout(nextRoundTimer);
   nextRoundTimer = null;
+}
+
+function scheduleReveal() {
+  revealTimer = setTimeout(() => {
+    revealTimer = null;
+    if (!game.advanceInspection()) return;
+    broadcast();
+    if (game.intermission) scheduleNextRound();
+  }, REVEAL_FLIP_MS + REVEAL_BLANK_MS);
+}
+
+function cancelReveal() {
+  clearTimeout(revealTimer);
+  revealTimer = null;
 }
 
 io.on('connection', (socket) => {
@@ -63,7 +80,7 @@ io.on('connection', (socket) => {
     ack?.(result);
     if (!result.ok) return;
     broadcast();
-    if (game.intermission) scheduleNextRound();
+    if (game.isRevealing()) scheduleReveal();
   });
 
   socket.on('revise', (payload, ack) => {
@@ -77,6 +94,7 @@ io.on('connection', (socket) => {
     ack?.(result);
     if (result.ok) {
       cancelNextRound();
+      cancelReveal();
       io.emit('reset');
       broadcast();
     }
@@ -87,6 +105,7 @@ io.on('connection', (socket) => {
     if (!game.disconnect(socket.id)) return;
     if (wasPlaying) {
       cancelNextRound();
+      cancelReveal();
       io.emit('reset');
     }
     broadcast();

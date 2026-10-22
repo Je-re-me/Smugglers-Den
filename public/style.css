@@ -2,7 +2,13 @@ body {
   font-family: system-ui, sans-serif;
   margin: 2rem 1rem;
   color: #f4e7c5;
-  background: #070504 url('/assets/ui/treasure-room.svg') center / cover no-repeat fixed;
+  text-shadow: 1.2px 0 #3b2414, -1.2px 0 #3b2414, 0 1.2px #3b2414, 0 -1.2px #3b2414, 1.2px 1.2px #3b2414, -1.2px -1.2px #3b2414, 1.2px -1.2px #3b2414, -1.2px 1.2px #3b2414;
+  background-color: #070504;
+  background-image: url('/assets/emotes/BlackbeardCook.jpg'), url('/assets/emotes/BlackbeardCook.jpg');
+  background-size: auto min(100vh, 62.5vw);
+  background-position: calc(50vw - min(80vh, 50vw)) center, 50vw center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   text-align: center;
 }
 
@@ -49,14 +55,6 @@ section {
   margin-top: -2rem;
 }
 
-#packages {
-  padding-left: 0;
-}
-
-#packages li {
-  justify-content: center;
-}
-
 .error {
   color: #ff7a7a;
   min-height: 1lh;
@@ -93,6 +91,16 @@ ul {
   margin-right: 0;
 }
 
+.card-count {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: 0.25rem;
+  transform: translateY(-50%);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
 .bribe-counter {
   position: absolute;
   top: -0.5rem;
@@ -115,23 +123,144 @@ ul {
   margin-right: 0;
 }
 
-#packages li {
+#spotlight {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: nowrap;
   gap: 0.5rem;
-  padding-top: 0.75rem;
-  white-space: nowrap;
-  overflow-x: auto;
+  min-height: 14rem;
+  perspective: 800px;
 }
 
-#packages .cards {
+#spotlight h3 {
+  margin: 0;
+}
+
+#emote:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 1000;
+  pointer-events: none;
+  animation: emote-pop 0.4s ease-out both;
+}
+
+@keyframes emote-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.spotlight-cards {
   display: flex;
-  flex-wrap: nowrap;
-  flex-shrink: 0;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-#packages .cards img {
-  margin-right: 0.25rem;
+.spotlight-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.spotlight-enter {
+  animation: spotlight-enter 0.7s ease-out both;
+}
+
+@keyframes spotlight-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.decision,
+.queue-note {
+  margin: 0;
+  min-height: 1lh;
+}
+
+.queue-note {
+  opacity: 0.7;
+}
+
+.decision.caught {
+  color: #ff7a7a;
+}
+
+.decision.stamp {
+  animation: stamp 0.45s ease-out;
+}
+
+@keyframes stamp {
+  0% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.card-flip {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  left: -0.3rem;
+}
+
+.card-flip img {
+  display: block;
+  margin: 0;
+}
+
+.card-flip .face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-flip .back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-flip .front {
+  transform: rotateY(180deg);
+}
+
+.card-flip.revealed {
+  transform: rotateY(180deg);
+}
+
+.card-flip.reveal-anim {
+  animation: card-flip 2s cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+
+@keyframes card-flip {
+  0% {
+    transform: rotateY(0deg) translateY(0) scale(1);
+  }
+  50% {
+    transform: rotateY(90deg) translateY(-14px) scale(1.12);
+  }
+  100% {
+    transform: rotateY(180deg) translateY(0) scale(1);
+  }
 }
 

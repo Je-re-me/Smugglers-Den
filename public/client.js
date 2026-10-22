@@ -25,13 +25,14 @@ const bribeSlider = $('bribe');
 const bribeValue = $('bribe-value');
 const submitButton = $('submit-pack');
 const packError = $('pack-error');
-const packagesList = $('packages');
+const spotlight = $('spotlight');
 const inspectError = $('inspect-error');
 const reviseControls = $('revise-controls');
 const reviseSlider = $('revise-bribe');
 const reviseValue = $('revise-value');
 const submitRevise = $('submit-revise');
 const reviseError = $('revise-error');
+const emoteImage = $('emote');
 
 const MAX_PACKAGE_CARDS = 5;
 let goods = [];
@@ -43,6 +44,17 @@ let seatedInfo = null;
 let reviseOpen = false;
 let latestState = null;
 let ownPackedCards = null;
+let shownPackages = '';
+let spotlightKey = '';
+let hydrated = false;
+const seenKeys = new Set();
+const HIDDEN_CARD = { name: 'Hidden card', image: 'back' };
+const EMOTE_SOURCES = {
+  happy: '/assets/emotes/BlackbeardHappy.jpg',
+  surprised: '/assets/emotes/BlackbeardSuprised.jpg',
+};
+const EMOTE_DURATION_MS = 2500;
+let emoteTimer = null;
 
 function setToken(value) {
   token = value;
@@ -87,6 +99,7 @@ socket.on('reset', () => {
   packError.textContent = '';
   inspectError.textContent = '';
   reviseError.textContent = '';
+  seenKeys.clear();
   renderHand([]);
 });
 
@@ -131,6 +144,7 @@ socket.on('state', (state) => {
   renderPackages(state);
   updateRevise();
   updatePackControls();
+  hydrated = true;
 });
 
 function updateLobbyButtons() {
@@ -149,18 +163,20 @@ function cardImage(card, width, height) {
   return img;
 }
 
-function describeStatus(player) {
+function decisionText(player, inspectorName) {
   switch (player.status) {
     case 'submitted':
-      return 'waiting for inspector';
+      return `${inspectorName} is deciding on ${player.name}'s package`;
     case 'suspected':
-      return 'suspected, awaiting bribe revision';
+      return `${inspectorName} suspects ${player.name}. Waiting for a bribe revision.`;
     case 'awaitingFinal':
-      return 'suspected, awaiting final call';
+      return `Bribe revised. ${inspectorName} is making the final call.`;
     case 'passed':
-      return 'passed unchecked';
+      return `${inspectorName} passed ${player.name}'s package unchecked.`;
     case 'resolved':
-      return player.winner === 'inspector' ? 'inspector caught it' : 'smuggler got through';
+      return player.winner === 'inspector'
+        ? `${inspectorName} caught ${player.name} smuggling!`
+        : `${player.name} got through. ${inspectorName} was wrong.`;
     default:
       return '';
   }
@@ -178,36 +194,110 @@ function decide(target, action) {
   });
 }
 
+function isFreshChange(player, round) {
+  const key = `${round}:${player.seat}:${player.status}`;
+  if (seenKeys.has(key)) return false;
+  seenKeys.add(key);
+  return hydrated;
+}
+
 function renderPackages(state) {
+  const signature = JSON.stringify([state, seat, ownPackedCards]);
+  if (signature === shownPackages) return;
+  shownPackages = signature;
+
   const isInspector = seat !== null && seat === state.inspectorSeat;
-  const inspecting = state.stage === 'inspecting';
-  const items = state.players
-    .filter((player) => player.seat !== state.inspectorSeat && player.packed)
-    .map((player) => {
-      const li = document.createElement('li');
-      const text = document.createElement('span');
-      text.textContent = `${player.name}: ${describeStatus(player)} `;
-      li.append(text);
-      const shownCards = player.cards ?? (player.seat === seat ? ownPackedCards : null);
-      if (shownCards) {
-        const cards = document.createElement('span');
-        cards.classList.add('cards');
-        cards.replaceChildren(...shownCards.map((card) => cardImage(card, 60, 84)));
-        li.append(cards);
-      }
-      li.append(displayedCard(player.declared, player.bribe));
-      if (isInspector && inspecting) {
-        for (const [label, action] of actionsFor(player.status)) {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.textContent = label;
-          button.addEventListener('click', () => decide(player.seat, action));
-          li.append(' ', button);
-        }
-      }
-      return li;
-    });
-  packagesList.replaceChildren(...items);
+  const inspectorName =
+    state.players.find((p) => p.seat === state.inspectorSeat)?.name ?? 'The inspector';
+  const current = state.players.find((p) => p.seat === state.currentSeat) ?? null;
+  renderSpotlight(state, current, inspectorName, isInspector);
+}
+
+function renderSpotlight(state, current, inspectorName, isInspector) {
+  if (!current) {
+    spotlightKey = '';
+    if (state.stage === 'packing') spotlight.textContent = 'Smugglers are packing...';
+    else if (state.stage === 'inspecting') spotlight.textContent = 'Round complete. Next round starting soon.';
+    else spotlight.textContent = '';
+    return;
+  }
+
+  const packageKey = `${state.round}:${current.seat}`;
+  const entering = packageKey !== spotlightKey;
+  spotlightKey = packageKey;
+  const fresh = isFreshChange(current, state.round);
+  const shown = current.cards ?? (current.seat === seat ? ownPackedCards : null);
+  const animate = fresh && Boolean(current.cards) && current.seat !== seat;
+
+  const title = document.createElement('h3');
+  title.textContent = `${current.name}'s package`;
+
+  const decision = document.createElement('p');
+  decision.classList.add('decision');
+  decision.textContent = decisionText(current, inspectorName);
+  if (current.winner === 'inspector') decision.classList.add('caught');
+  if (fresh) decision.classList.add('stamp');
+
+  const faces = Array.from({ length: current.cardCount ?? 0 }, (_, index) =>
+    flipCard(shown?.[index] ?? null, 100, 140, {
+      revealed: Boolean(shown),
+      animate,
+      delay: index * 700,
+    }),
+  );
+  const cardsRow = document.createElement('div');
+  cardsRow.classList.add('spotlight-cards');
+  cardsRow.replaceChildren(...faces);
+  if (fresh && ['passed', 'resolved'].includes(current.status)) {
+    if (animate) faces.at(-1).addEventListener('animationend', () => showEmote(current), { once: true });
+    else showEmote(current);
+  }
+
+  const note = document.createElement('p');
+  note.classList.add('queue-note');
+  note.textContent =
+    state.queuedAfterCurrent > 0
+      ? `${state.queuedAfterCurrent} more to inspect after this one`
+      : 'Last package this round';
+
+  const children = [title, decision, displayedCard(current.declared, current.bribe, current.cardCount), cardsRow];
+  if (isInspector) {
+    const actions = document.createElement('div');
+    actions.classList.add('spotlight-actions');
+    actions.replaceChildren(
+      ...actionsFor(current.status).map(([label, action]) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = label;
+        button.addEventListener('click', () => decide(current.seat, action));
+        return button;
+      }),
+    );
+    children.push(actions);
+  }
+  children.push(note);
+  if (entering) for (const child of children) child.classList.add('spotlight-enter');
+  spotlight.replaceChildren(...children);
+}
+
+function backImage(width, height) {
+  const img = cardImage(HIDDEN_CARD, width, height);
+  img.classList.add('face', 'back');
+  return img;
+}
+
+function flipCard(card, width, height, { revealed = false, animate = false, delay = 0 } = {}) {
+  const flip = document.createElement('span');
+  flip.classList.add('card-flip');
+  if (revealed) flip.classList.add('revealed');
+  if (animate) {
+    flip.classList.add('reveal-anim');
+    flip.style.animationDelay = `${delay}ms`;
+  }
+  const front = cardImage(card ?? HIDDEN_CARD, width, height);
+  front.classList.add('face', 'front');
+  flip.append(front, backImage(width, height));
+  return flip;
 }
 
 function updateRevise() {
@@ -270,7 +360,7 @@ function renderDeclareRow() {
   );
 }
 
-function displayedCard(good, bribe) {
+function displayedCard(good, bribe, count) {
   const wrapper = document.createElement('span');
   wrapper.classList.add('displayed-card');
   const counter = document.createElement('span');
@@ -283,6 +373,12 @@ function displayedCard(good, bribe) {
   coin.height = 16;
   counter.append(coin);
   wrapper.append(cardImage(good, 80, 112), counter);
+  if (count > 1) {
+    const label = document.createElement('span');
+    label.classList.add('card-count');
+    label.textContent = `x ${count}`;
+    wrapper.append(label);
+  }
   return wrapper;
 }
 
@@ -302,7 +398,7 @@ function renderHand(hand, packedCards, packedDeclared, packedBribe) {
     handLabel.replaceChildren(
       ...packedCards.map((card) => cardImage(card, 100, 140)),
       displayedAs,
-      displayedCard(packedDeclared, packedBribe),
+      displayedCard(packedDeclared, packedBribe, packedCards.length),
     );
   } else if (hand.length === 0) {
     handTitle.textContent = 'Your hand';
@@ -347,6 +443,15 @@ submitButton.addEventListener('click', () => {
     packError.textContent = res.ok ? '' : res.error;
   });
 });
+
+function showEmote(player) {
+  clearTimeout(emoteTimer);
+  emoteImage.src = EMOTE_SOURCES[player.winner === 'inspector' ? 'surprised' : 'happy'];
+  emoteImage.hidden = false;
+  emoteTimer = setTimeout(() => {
+    emoteImage.hidden = true;
+  }, EMOTE_DURATION_MS);
+}
 
 socket.on('private', (view) => {
   seat = view.seat;

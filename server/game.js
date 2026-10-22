@@ -21,6 +21,8 @@ export class Game {
     this.round = 0;
     this.results = null;
     this.intermission = false;
+    this.queue = [];
+    this.queueIndex = 0;
   }
 
   join({ name, token, socketId }) {
@@ -100,6 +102,8 @@ export class Game {
   }
 
   dealRound() {
+    this.queue = [];
+    this.queueIndex = 0;
     const inspector = this.inspectorSeat();
     const drawCards = (pool, count) => Array.from({ length: count }, () => pool[randomInt(pool.length)]);
     this.players.forEach((player, seat) => {
@@ -145,7 +149,15 @@ export class Game {
       winner: null,
     };
     player.hand = player.hand.filter((_, i) => !unique.has(i));
+    if (this.allPacked()) this.beginInspection();
     return { ok: true };
+  }
+
+  beginInspection() {
+    const count = this.players.length;
+    const inspector = this.inspectorSeat();
+    this.queue = Array.from({ length: count - 1 }, (_, i) => (inspector + 1 + i) % count);
+    this.queueIndex = 0;
   }
 
   decide(socketId, { target, action } = {}) {
@@ -154,19 +166,34 @@ export class Game {
       return { ok: false, error: 'Only the inspector can decide' };
     }
     if (!this.allPacked()) return { ok: false, error: 'Waiting for all smugglers to submit' };
+    if (target !== this.currentSeat()) return { ok: false, error: 'That package is not up for inspection' };
 
-    const seat = this.packageSeat(target);
-    if (seat === null) return { ok: false, error: 'No package there' };
-    const pkg = this.players[seat].package;
+    const pkg = this.players[target].package;
 
-    if (pkg.status === 'submitted' && action === 'pass') this.passPackage(seat);
+    if (pkg.status === 'submitted' && action === 'pass') this.passPackage(target);
     else if (pkg.status === 'submitted' && action === 'inspect') pkg.status = 'suspected';
-    else if (pkg.status === 'awaitingFinal' && action === 'pass') this.passPackage(seat);
-    else if (pkg.status === 'awaitingFinal' && action === 'look') this.lookAt(seat);
+    else if (pkg.status === 'awaitingFinal' && action === 'pass') this.passPackage(target);
+    else if (pkg.status === 'awaitingFinal' && action === 'look') this.lookAt(target);
     else return { ok: false, error: 'That action is not available for this package' };
 
-    this.settleRound();
     return { ok: true };
+  }
+
+  currentSeat() {
+    if (this.phase !== 'playing') return null;
+    return this.queue[this.queueIndex] ?? null;
+  }
+
+  isRevealing() {
+    const seat = this.currentSeat();
+    return seat !== null && ['passed', 'resolved'].includes(this.players[seat].package.status);
+  }
+
+  advanceInspection() {
+    if (!this.isRevealing()) return false;
+    this.queueIndex += 1;
+    this.settleRound();
+    return true;
   }
 
   revise(socketId, { bribe } = {}) {
@@ -213,11 +240,7 @@ export class Game {
   }
 
   settleRound() {
-    const settled = this.players.every(
-      (p, seat) =>
-        seat === this.inspectorSeat() || ['passed', 'resolved'].includes(p.package?.status),
-    );
-    if (!settled) return;
+    if (this.currentSeat() !== null) return;
     if (this.round >= TOTAL_ROUNDS) {
       this.finishGame();
       return;
@@ -252,11 +275,6 @@ export class Game {
     return this.players.findIndex((p) => p.socketId === socketId);
   }
 
-  packageSeat(seat) {
-    if (!Number.isInteger(seat) || seat === this.inspectorSeat()) return null;
-    return this.players[seat]?.package ? seat : null;
-  }
-
   allPacked() {
     return this.players.every((p, seat) => seat === this.inspectorSeat() || Boolean(p.package));
   }
@@ -283,6 +301,8 @@ export class Game {
       playerCount: PLAYER_COUNT,
       inspectorSeat: this.phase === 'playing' ? this.inspectorSeat() : null,
       stage: this.stage(),
+      currentSeat: this.currentSeat(),
+      queuedAfterCurrent: this.currentSeat() === null ? 0 : this.queue.length - this.queueIndex - 1,
       goods: GOODS,
       results: this.results,
       players: this.players.map((p, seat) => ({
